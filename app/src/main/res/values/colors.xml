@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="layout_background">#222830</color>
-    <color name="card_background">#525C28</color>
-    <color name="text_nint">#484F5E</color>
+    <color name="card_background">#2E557A</color>
+    <color name="text_nint">#C6CBD7</color>
+    <color name="button_background">#937F2D</color>
 </resources>

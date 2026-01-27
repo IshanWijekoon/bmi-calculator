@@ -1,6 +1,7 @@
 package com.example.bmi_calculator
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import java.util.Locale
+import kotlin.math.pow
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,19 +25,18 @@ class MainActivity : AppCompatActivity() {
         val calcButton = findViewById<Button>(R.id.btnCalculate)
 
         calcButton.setOnClickListener {
-            val weight = weightText.text.toString()
-            val height = heightText.text.toString()
-            if(validateInput(weight, height)){
-                val bmi = weight.toFloat()/((height.toFloat()/100)*(height.toFloat()/100))
-                // get result with two decimal places
-                val bmi2Digits = String.format("%.2f", bmi).toFloat()
-                displayResult(bmi2Digits)
-            }
+            val weightInput = weightText.text.toString().trim()
+            val heightInput = heightText.text.toString().trim()
+            val weight = weightInput.toFloatOrNull()
+            val heightCm = heightInput.toFloatOrNull()
 
+            if (!validateInput(weight, heightCm)) return@setOnClickListener
+
+            val heightMeters = (heightCm!! / 100f)
+            val bmi = weight!! / heightMeters.pow(2)
+            val bmiRounded = String.format(Locale.getDefault(), "%.1f", bmi).toFloat()
+            displayResult(bmiRounded)
         }
-
-
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -43,20 +45,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateInput(weight: String?, height: String?): Boolean{
-
-        return when{
-            weight.isNullOrEmpty() -> {
-                Toast.makeText(this, "Weight is empty", Toast.LENGTH_LONG).show()
-                return false
+    private fun validateInput(weight: Float?, heightCm: Float?): Boolean {
+        return when {
+            weight == null || weight <= 0f -> {
+                Toast.makeText(this, "Please enter a valid weight", Toast.LENGTH_LONG).show()
+                false
             }
-            height.isNullOrEmpty() -> {
-                Toast.makeText(this, "Height is empty", Toast.LENGTH_LONG).show()
-                return false
+            heightCm == null || heightCm <= 0f -> {
+                Toast.makeText(this, "Please enter a valid height", Toast.LENGTH_LONG).show()
+                false
             }
-            else -> {
-                return true
-            }
+            else -> true
         }
     }
 
@@ -65,36 +64,19 @@ class MainActivity : AppCompatActivity() {
         val resultDescription = findViewById<TextView>(R.id.tvResult)
         val info = findViewById<TextView>(R.id.tvInfo)
 
-        resultIndex.text = bmi.toString()
-        info.text = "(Normal range is 18.5 - 24.9)"
+        resultIndex.visibility = View.VISIBLE
+        resultIndex.text = String.format(Locale.getDefault(), "%.1f", bmi)
 
-        var resultText = ""
-        var color = 0
-
-        when {
-            bmi < 18.50 -> {
-                resultText = "Underweight"
-                color = R.color.under_weight
-            }
-
-            bmi in 18.50..24.99 -> {
-                resultText = "Healthy"
-                color = R.color.normal
-            }
-
-            bmi in 25.00..29.99 -> {
-                resultText = "Overweight"
-                color = R.color.over_weight
-            }
-
-            bmi > 30.00 -> {
-                resultText = "Obese"
-                color = R.color.obese
-            }
-
-
+        val (resultText, colorRes) = when {
+            bmi < 18.50f -> "Underweight" to R.color.under_weight
+            bmi < 25.00f -> "Healthy" to R.color.normal
+            bmi < 30.00f -> "Overweight" to R.color.over_weight
+            else -> "Obese" to R.color.obese
         }
-        resultDescription.setTextColor(ContextCompat.getColor(this, color))
+
+        resultDescription.setTextColor(ContextCompat.getColor(this, colorRes))
         resultDescription.text = resultText
+
+        info.text = getString(R.string.bmi_info_template, bmi, resultText)
     }
 }

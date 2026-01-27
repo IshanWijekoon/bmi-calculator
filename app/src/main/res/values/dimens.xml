@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Layout spacing -->
+    <dimen name="layout_margin">16dp</dimen>
+    <dimen name="space_small">8dp</dimen>
+    <dimen name="space_medium">16dp</dimen>
+    <dimen name="space_large">24dp</dimen>
+
+    <!-- Card & button radii -->
+    <dimen name="card_corner">12dp</dimen>
+    <dimen name="button_corner">12dp</dimen>
+
+    <!-- Minimum heights -->
+    <dimen name="card_min_height">120dp</dimen>
+    <dimen name="button_min_height">48dp</dimen>
+
+    <!-- Text sizes (use sp) -->
+    <dimen name="text_label">18sp</dimen>
+    <dimen name="text_value">48sp</dimen>
+    <dimen name="text_result">48sp</dimen>
+    <dimen name="text_result_message">20sp</dimen>
+</resources>

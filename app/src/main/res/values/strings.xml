@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">bmi-calculator</string>
+
+    <!-- UI strings -->
+    <string name="btn_calculate">Calculate</string>
+    <string name="btn_calculate_desc">Calculate body mass index</string>
+    <string name="hint_weight_input">Weight in kilograms</string>
+    <string name="hint_height_input">Height in centimeters</string>
+    <string name="bmi_info_template">BMI is %1$.1f — %2$s</string>
 </resources>

@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Neutral tokens -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="layout_background">#222830</color>
-    <color name="card_background">#2E557A</color>
+    <!-- App surface/background (dark theme) -->
+    <color name="layout_background">#0B1624</color>
+    <color name="card_background">#132538</color>
     <color name="text_nint">#C6CBD7</color>
-    <color name="button_background">#937F2D</color>
+    <color name="button_background">#0D63A5</color>
 
-    <color name="under_weight">#855713</color>
+    <!-- Material-like tokens (dark / dark-blue) -->
+    <color name="colorPrimary">#0D63A5</color>
+    <color name="colorOnPrimary">#FFFFFFFF</color>
+    <color name="colorPrimaryDark">#0A4F82</color>
+    <color name="colorSecondary">#1F8A70</color>
+    <color name="colorOnSecondary">#E6EEF5</color>
+    <color name="colorBackground">#0B1624</color>
+    <color name="colorSurface">#132538</color>
+    <color name="colorOnSurface">#E6EEF5</color>
+    <color name="colorSuccess">#4CAF50</color>
+    <color name="colorWarning">#FFB300</color>
+    <color name="colorError">#D32F2F</color>
+
+    <!-- BMI semantic colors (kept) -->
+    <color name="under_weight">#FFC107</color>
     <color name="normal">#4CAF50</color>
-    <color name="over_weight">#78374D</color>
-    <color name="obese">#872721</color>
+    <color name="over_weight">#FF7043</color>
+    <color name="obese">#D32F2F</color>
 </resources>

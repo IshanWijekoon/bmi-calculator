@@ -1,5 +1,6 @@
 package com.example.bmi_calculator
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -32,10 +33,12 @@ class MainActivity : AppCompatActivity() {
 
             if (!validateInput(weight, heightCm)) return@setOnClickListener
 
-            val heightMeters = (heightCm!! / 100f)
-            val bmi = weight!! / heightMeters.pow(2)
+            val weightValue = weight!!
+            val heightCmValue = heightCm!!
+            val heightMeters = heightCmValue / 100f
+            val bmi = weightValue / heightMeters.pow(2)
             val bmiRounded = String.format(Locale.getDefault(), "%.1f", bmi).toFloat()
-            displayResult(bmiRounded)
+            displayResult(bmiRounded, weightValue, heightCmValue)
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -59,12 +62,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun displayResult(bmi: Float) {
+    private fun displayResult(bmi: Float, weight: Float, heightCm: Float) {
         val resultIndex = findViewById<TextView>(R.id.tvIndex)
         val resultDescription = findViewById<TextView>(R.id.tvResult)
         val info = findViewById<TextView>(R.id.tvInfo)
+        val formula = findViewById<TextView>(R.id.tvFormula)
 
         resultIndex.visibility = View.VISIBLE
+        resultDescription.visibility = View.VISIBLE
+        info.visibility = View.VISIBLE
+        formula.visibility = View.VISIBLE
         resultIndex.text = String.format(Locale.getDefault(), "%.1f", bmi)
 
         val (resultText, colorRes) = when {
@@ -74,9 +81,14 @@ class MainActivity : AppCompatActivity() {
             else -> "Obese" to R.color.obese
         }
 
-        resultDescription.setTextColor(ContextCompat.getColor(this, colorRes))
+        val categoryColor = ContextCompat.getColor(this, colorRes)
         resultDescription.text = resultText
+        resultDescription.background = ContextCompat.getDrawable(this, R.drawable.bg_result_chip)
+        resultDescription.setTextColor(ContextCompat.getColor(this, R.color.colorOnPrimary))
+        ViewCompat.setBackgroundTintList(resultDescription, ColorStateList.valueOf(categoryColor))
 
         info.text = getString(R.string.bmi_info_template, bmi, resultText)
+        val heightMeters = heightCm / 100f
+        formula.text = getString(R.string.bmi_formula_template, weight, heightMeters, bmi)
     }
 }
